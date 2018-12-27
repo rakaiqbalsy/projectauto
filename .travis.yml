@@ -10,8 +10,6 @@ php:
 branches:
   only:
     - master    #-> Staging Server
-    - develop   #-> For Develop
-
 #-> Sebelum melakukan / mengeksekusi script
 #-> install kebutuhan os. ext: mod-php dll.
 #-> before_install: 
