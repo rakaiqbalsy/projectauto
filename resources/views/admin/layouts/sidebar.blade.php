@@ -39,8 +39,8 @@
             <li class=""><a href="{{route('event.index')}}"><i class="fa fa-circle-o"></i> Event</a></li>
 
             <!--All -->
-            <li class=""><a href="#"><i class="fa fa-circle-o"></i> Review</a></li>
-            <li class=""><a href="#"><i class="fa fa-circle-o"></i> Test Drive</a></li>
+            <li class=""><a href="{{route('testdrive.index')}}"><i class="fa fa-circle-o"></i> Review</a></li>
+            <li class=""><a href="{{route('nilai.index')}}"><i class="fa fa-circle-o"></i> Test Drive</a></li>
 
             <!--Just For Admin -->
             <li class=""><a href="{{route('user.index')}}"><i class="fa fa-circle-o"></i> Users</a></li>

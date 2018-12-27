@@ -4,8 +4,6 @@
     </div>
     <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
     reserved.
-  </footer>
-
   <!-- jQuery 2.2.3 -->
 <script src="{{asset('admin/plugins/jQuery/jquery-2.2.3.min.js')}}"></script>
 <!-- jQuery UI 1.11.4 -->
@@ -40,6 +38,11 @@
 <!-- AdminLTE App -->
 <script src="{{asset('admin/dist/js/app.min.js')}}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="{{asset('admin/dist/js/pages/dashboard.js')}}"></script>
+<!--<script src="{{asset('admin/dist/js/pages/dashboard.js')}}"></script>-->
 <!-- AdminLTE for demo purposes -->
 <script src="{{asset('admin/dist/js/demo.js')}}"></script>
+
+
+@section('footerSection')
+  @show
+</footer>

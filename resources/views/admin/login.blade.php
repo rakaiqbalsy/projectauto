@@ -27,14 +27,14 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="../../index2.html"><b>Admin</b> Bitfumes</a>
+    <a href="../../index2.html"><b>Admin</b> Site</a>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
     <p class="login-box-msg">Sign in to start your session</p>
     
-    @include('includes.messages')
-    
+    @include('message.message')
+
     <form action="{{ route('admin.login') }}" method="post">
     {{ csrf_field() }}
       <div class="form-group has-feedback">

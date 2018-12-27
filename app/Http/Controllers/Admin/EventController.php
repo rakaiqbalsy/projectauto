@@ -16,7 +16,8 @@ class EventController extends Controller
     public function index()
     {
         //
-        return view('admin.event.show');
+        $events = event::all();
+        return view('admin.event.show',compact('events'));
     }
 
     /**
@@ -45,15 +46,26 @@ class EventController extends Controller
             'lokasi'=>'required',
             'start'=>'required',
             'end'=>'required',
+            'status' => 'required',
             'body'=>'required',
+            'image'=>'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $fileName = time().'.'.$file->getClientOriginalExtension();
+            $destinationPath = public_path('/images');
+            $file->move($destinationPath, $fileName);
+        }
+
         $post = new event;
+        $post ->image = $fileName;
         $post->title = $request->title;
         $post->slug = $request->slug;
         $post->lokasi = $request->lokasi;
         $post->start = $request->start;
         $post->end = $request->end;
+        $post->status = $request->status;
         $post->body = $request->body;
 
         $post->save();
@@ -81,6 +93,9 @@ class EventController extends Controller
     public function edit($id)
     {
         //
+         //edit
+        $event = event::where('id', $id)->first();
+        return view('admin.event.edit', compact('event'));
     }
 
     /**
@@ -92,7 +107,38 @@ class EventController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //updated data
+        $this->validate($request,[
+            'title'=>'required',
+            'slug'=>'required',
+            'lokasi'=>'required',
+            'start'=>'required',
+            'end'=>'required',
+            'status'=>'required',
+            'body'=>'required',
+            'image'=>'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $fileName = time().'.'.$file->getClientOriginalExtension();
+            $destinationPath = public_path('/images');
+            $file->move($destinationPath, $fileName);
+        }
+
+        $event = event::find($id);
+        $event->title = $request->title;
+        $event ->image = $fileName;
+        $event->slug = $request->slug;
+        $event->lokasi = $request->lokasi;
+        $event->start = $request->start;
+        $event->end = $request->end;
+        $event->status=$request->status;
+        $event->body = $request->body;
+
+        $event->save();
+
+        return redirect(route('event.index'));
     }
 
     /**
@@ -104,5 +150,8 @@ class EventController extends Controller
     public function destroy($id)
     {
         //
+        //Delete function
+        event::where('id', $id)->delete();
+        return redirect()->back();
     }
 }

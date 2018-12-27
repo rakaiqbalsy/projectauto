@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Model\user\category;
 
 class CategoryController extends Controller
 {
@@ -15,7 +16,8 @@ class CategoryController extends Controller
     public function index()
     {
         //
-        return view('admin.category.show');
+        $categories = category::all();
+        return view('admin.category.show',compact('categories'));
     }
 
     /**
@@ -37,7 +39,17 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+         $this->validate($request,[
+            'name' => 'required',
+            'slug' => 'required',
+        ]);
+
+        $category = new category;
+        $category->name = $request->name;
+        $category->slug = $request->slug;
+        $category->save();
+
+        return redirect(route('category.index'));
     }
 
     /**
@@ -59,7 +71,9 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+       //edit
+        $category = category::where('id', $id)->first();
+        return view('admin.category.edit', compact('category'));
     }
 
     /**
@@ -71,7 +85,19 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+       //updated
+        $this->validate($request,[
+            'name' => 'required',
+            'slug' => 'required',
+        ]);
+
+        $category = category::find($id);
+        $category->name = $request->name;
+        $category->slug = $request->slug;
+
+        $category->save();
+
+        return redirect(route('category.index'));
     }
 
     /**
@@ -82,6 +108,8 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+         //Delete function
+        category::where('id', $id)->delete();
+        return redirect()->back();
     }
 }

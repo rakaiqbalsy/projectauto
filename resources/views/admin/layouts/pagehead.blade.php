@@ -1,4 +1,4 @@
 <h1>
-  Bitfumes Page
-  <small>Lets create something awesome</small>
+  OTOKU.COM
+  <small>DRIVE FOR LIFE</small>
 </h1>

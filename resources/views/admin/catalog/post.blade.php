@@ -27,14 +27,10 @@
               <h3 class="box-title">Title</h3>
             </div>
 
-            @if (count($errors) > 0)
-              @foreach($errors->all() as $error)
-                <p class="alert alert-danger">{{$error}}</p>
-              @endforeach
-            @endif
+            @include('message.message');
             <!-- /.box-header -->
             <!-- form start -->
-            <form role="form" action="{{route('catalog.store')}}" method="post">
+            <form role="form" action="{{route('catalog.store')}}" method="post" enctype="multipart/form-data">
 
               {{ csrf_field() }}
 
@@ -68,7 +64,7 @@
                
                   <div class="checkbox">
                     <label>
-                      <input type="checkbox" name="status"> Ya, Publish
+                      <input type="checkbox" name="status" value="1"> Ya, Publish
                     </label>
                   </div>
                   </div>
@@ -86,12 +82,13 @@
               </div>
               <!-- /. tools -->
             </div>
-            <!-- /.box-header -->
+               <!-- /.box-header -->
             <div class="box-body pad">
-                <textarea class="textarea" placeholder="Place some text here" name="body" style="width: 100%; height: 500px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+              <textarea id="editor1" name="body" style="width: 100%; height: 500px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
             </div>
             <div class="box-footer">
                 <button type="submit" class="btn btn-primary">Submit</button>
+                <a href="{{route('catalog.index')}}" class="btn btn-warning">Back</a>
               </div>
           </div>
             </form>
@@ -107,4 +104,17 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+@endsection
+@section('footerSection')
+<!-- CK EDITOR -->
+<script src="{{asset('ckeditor/ckeditor.js')}}"></script>
+
+<script>
+  $(function(){
+    CKEDITOR.replace('editor1');
+
+    $(".textarea").wysihtml5();
+  });
+
+</script>
 @endsection

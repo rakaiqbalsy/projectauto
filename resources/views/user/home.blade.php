@@ -7,70 +7,50 @@
 
 @section('content')
 
-    <!-- Main Content -->
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-8 col-md-10 mx-auto">
-          <div class="post-preview">
-            <a href="{{route('detail')}}">
-              <h2 class="post-title">
-                Man must explore, and this is exploration at its greatest
-              </h2>
-              <h3 class="post-subtitle">
-                Problems look mighty small from 150 miles up
-              </h3>
-            </a>
-            <p class="post-meta">Posted by
-              <a href="#">Start Bootstrap</a>
-              on September 24, 2018</p>
-          </div>
-          <hr>
-          <div class="post-preview">
-            <a href="{{route('detail')}}">
-              <h2 class="post-title">
-                I believe every human has a finite number of heartbeats. I don't intend to waste any of mine.
-              </h2>
-            </a>
-            <p class="post-meta">Posted by
-              <a href="#">Start Bootstrap</a>
-              on September 18, 2018</p>
-          </div>
-          <hr>
-          <div class="post-preview">
-            <a href="post.html">
-              <h2 class="post-title">
-                Science has not yet mastered prophecy
-              </h2>
-              <h3 class="post-subtitle">
-                We predict too much for the next year and yet far too little for the next ten.
-              </h3>
-            </a>
-            <p class="post-meta">Posted by
-              <a href="#">Start Bootstrap</a>
-              on August 24, 2018</p>
-          </div>
-          <hr>
-          <div class="post-preview">
-            <a href="post.html">
-              <h2 class="post-title">
-                Failure is not an option
-              </h2>
-              <h3 class="post-subtitle">
-                Many say exploration is part of our destiny, but it’s actually our duty to future generations.
-              </h3>
-            </a>
-            <p class="post-meta">Posted by
-              <a href="#">Start Bootstrap</a>
-              on July 8, 2018</p>
-          </div>
-          <hr>
-          <!-- Pager -->
-          <div class="clearfix">
-            <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
-          </div>
-        </div>
-      </div>
-    </div>
+   <!-- Event -->
+<section id="event" class="event">
+   <div class="container">
+            <div class="world-latest-articles">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="title">
+                            <h3>Berita Terbaru</h3>
+                        </div>
 
-    <hr>
+                        <!-- Single Blog Post -->
+
+                        @foreach($beritas as $berita)
+                        <div class="single-blog-post post-style-4 d-flex align-items-center wow fadeInUpBig" data-wow-delay="0.2s">
+                            <!-- Post Thumbnail -->
+                            <div class="post-thumbnail">
+                                <img src="{{asset('images/'.$berita->image)}}" alt="">
+                            </div>
+                            <!-- Post Content -->
+                            <div class="post-content">
+                                <a href="{{route('detail',$berita->slug)}}" class="headline">
+                                    <h5>{{$berita->title}}</h5>
+                                </a>
+                                <p>{{$berita->subtitle}}</p>
+                                <!-- Post Meta -->
+                                <div class="post-meta">
+                                    <p><a href="#" class="post-author">Admin</a> on <a href="#" class="post-date">{{$berita->created_at->diffForHumans()}}</a></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        @endforeach
+
+                   
+
+                    </div>
+
+                    <!-- Akhir Berita -->
+                    <!--Event Terbaru -->
+
+                  
+                    </div>
+                </div>
+            </div>
+          </section>
+    <!-- Akhir Event -->
 @endsection

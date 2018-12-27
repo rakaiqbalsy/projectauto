@@ -17,8 +17,20 @@ Route::group(['namespace' => 'User'], function(){
 	//halaman awal user
 	Route::get('/','HomeController@index');
 
-	//get Detail dari post
-	Route::get('detail','BeritaController@index')->name('detail');
+	//Halaman dari event
+	Route::get('user/event','UieventController@index');
+
+	//Halaman dari catalog
+	Route::get('user/catalog','UicatalogController@index');
+
+	//get Detail dari post berita
+	Route::get('detail/{news}','BeritaController@post')->name('detail');
+
+	//get Detail dari event
+	Route::get('detail-event{event}','EventController@post')->name('detail-event');
+
+	//get Detail dari catalog
+	Route::get('detail-catalog{car}','CatalogController@post')->name('detail-catalog');
 });
 
 
@@ -39,4 +51,18 @@ Route::group(['namespace'=> 'Admin'], function(){
 	Route::resource('admin/category', 'CategoryController');
 
 	Route::resource('admin/tag', 'TagController');
+
+	Route::resource('admin/nilai', 'ReviewController');
+
+	Route::resource('admin/testdrive', 'DriveController');
+	
+	//admin auth routes
+	Route::get('admin-login', 'Auth\LoginController@showLoginForm')->name('admin.login');
+
+	Route::post('admin-login', 'Auth\LoginController@login');
+
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

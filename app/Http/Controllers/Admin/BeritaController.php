@@ -16,7 +16,8 @@ class BeritaController extends Controller
     public function index()
     {
         //
-        return view('admin.berita.show');
+        $beritas = berita::all();
+        return view('admin.berita.show',compact('beritas'));
 
     }
 
@@ -44,13 +45,24 @@ class BeritaController extends Controller
             'title'=>'required',
             'subtitle'=>'required',
             'slug'=>'required',
+            'status'=>'required',
             'body'=>'required',
+            'image'=>'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $fileName = time().'.'.$file->getClientOriginalExtension();
+            $destinationPath = public_path('/images');
+            $file->move($destinationPath, $fileName);
+        }
+
         $post = new berita;
+        $post ->image = $fileName;
         $post->title = $request->title;
         $post->subtitle = $request->subtitle;
         $post->slug = $request->slug;
+        $post ->status = $request->status;
         $post->body = $request->body;
 
         $post->save();
@@ -77,7 +89,9 @@ class BeritaController extends Controller
      */
     public function edit($id)
     {
-        //
+        //edit
+        $beritas = berita::where('id', $id)->first();
+        return view('admin.berita.edit', compact('beritas'));
     }
 
     /**
@@ -89,7 +103,34 @@ class BeritaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //update data
+        $this->validate($request,[
+            'title'=>'required',
+            'subtitle'=>'required',
+            'slug'=>'required',
+            'status'=>'required',
+            'body'=>'required',
+            'image'=>'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $fileName = time().'.'.$file->getClientOriginalExtension();
+            $destinationPath = public_path('/images');
+            $file->move($destinationPath, $fileName);
+        }
+
+        $beritas = berita::find($id);
+        $beritas->title = $request->title;
+        $beritas ->image = $fileName;
+        $beritas->subtitle = $request->subtitle;
+        $beritas->slug = $request->slug;
+        $beritas ->status = $request->status;
+        $beritas->body = $request->body;
+
+        $beritas->save();
+
+        return redirect(route('berita.index'));
     }
 
     /**
@@ -100,6 +141,8 @@ class BeritaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        //Delete function
+        berita::where('id', $id)->delete();
+        return redirect()->back();
     }
 }

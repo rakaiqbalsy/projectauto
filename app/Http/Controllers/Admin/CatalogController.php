@@ -16,7 +16,8 @@ class CatalogController extends Controller
     public function index()
     {
         //
-        return view('admin.catalog.show');
+        $catalogs = catalog::all();
+        return view('admin.catalog.show',compact('catalogs'));
     }
 
     /**
@@ -43,13 +44,24 @@ class CatalogController extends Controller
             'title'=>'required',
             'subtitle'=>'required',
             'slug'=>'required',
+            'status'=>'required',
             'body'=>'required',
+            'image'=>'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $fileName = time().'.'.$file->getClientOriginalExtension();
+            $destinationPath = public_path('/images');
+            $file->move($destinationPath, $fileName);
+        }
+
         $post = new catalog;
+        $post ->image = $fileName;
         $post->title = $request->title;
         $post->subtitle = $request->subtitle;
         $post->slug = $request->slug;
+        $post->status= $request->status;
         $post->body = $request->body;
 
         $post->save();
@@ -76,7 +88,9 @@ class CatalogController extends Controller
      */
     public function edit($id)
     {
-        //
+        //edit
+        $catalog = catalog::where('id', $id)->first();
+        return view('admin.catalog.edit', compact('catalog'));
     }
 
     /**
@@ -88,7 +102,35 @@ class CatalogController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //updated
+        $this->validate($request,[
+            'title'=>'required',
+            'subtitle'=>'required',
+            'slug'=>'required',
+            'status'=>'required',
+            'body'=>'required',
+            'image'=>'required',
+        ]);
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $fileName = time().'.'.$file->getClientOriginalExtension();
+            $destinationPath = public_path('/images');
+            $file->move($destinationPath, $fileName);
+
+        }
+
+        $catalogs = catalog::find($id);
+        $catalogs->title = $request->title;
+        $catalogs->subtitle = $request->subtitle;
+        $catalogs ->image = $fileName;
+        $catalogs->slug = $request->slug;
+        $catalogs->status = $request->status;
+        $catalogs->body = $request->body;
+
+        $catalogs->save();
+
+        return redirect(route('catalog.index'));
     }
 
     /**
@@ -99,6 +141,8 @@ class CatalogController extends Controller
      */
     public function destroy($id)
     {
-        //
+        //Delete function
+        catalog::where('id', $id)->delete();
+        return redirect()->back();
     }
 }
